@@ -6,13 +6,16 @@ import {
   EnvironmentOutlined,
 } from '@ant-design/icons';
 
+const FALLBACK_IMAGE =
+  'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=800&auto=format&fit=crop';
+
 const PackageSection = () => {
   const packages = [
     {
       id: 1,
       name: 'Umroh Reguler 9 Hari',
       price: 25000000,
-      image: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=500',
+      image: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=800&auto=format&fit=crop',
       duration: '9 Hari',
       quota: '45 Jamaah',
       departure: '15 Sep 2026',
@@ -24,7 +27,7 @@ const PackageSection = () => {
       id: 2,
       name: 'Umroh Plus Turki 12 Hari',
       price: 35000000,
-      image: 'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=500',
+      image: 'https://images.unsplash.com/photo-1527838832700-5059252407fa?q=80&w=800&auto=format&fit=crop',
       duration: '12 Hari',
       quota: '40 Jamaah',
       departure: '20 Sep 2026',
@@ -36,7 +39,7 @@ const PackageSection = () => {
       id: 3,
       name: 'Umroh Ramadhan Premium',
       price: 45000000,
-      image: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=500',
+      image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=800&auto=format&fit=crop',
       duration: '14 Hari',
       quota: '30 Jamaah',
       departure: '10 Mar 2027',
@@ -52,6 +55,10 @@ const PackageSection = () => {
       currency: 'IDR',
       minimumFractionDigits: 0,
     }).format(price);
+  };
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = FALLBACK_IMAGE;
   };
 
   return (
@@ -80,6 +87,7 @@ const PackageSection = () => {
                       <img
                         alt={pkg.name}
                         src={pkg.image}
+                        onError={handleImageError}
                         className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
                       />
                     </div>

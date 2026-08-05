@@ -1,11 +1,13 @@
-import { Modal, Form, Select, InputNumber, Input } from 'antd';
+import { Modal, Select, InputNumber, Input } from 'antd';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreateBooking, useUpdateBooking } from '@/hooks/useBookings';
-import { IBooking, ICreateBookingDto, IUpdateBookingDto } from '@/types/booking.type';
+import { IBooking, IUpdateBookingDto } from '@/types/booking.type';
 import { useCustomers } from '@/hooks/useCustomers';
 import { usePackages } from '@/hooks/usePackages';
 import { useEffect } from 'react';
+import { bookingFormSchema, BookingFormData } from '@/utils/validation';
 
-const { Option } = Select;
 const { TextArea } = Input;
 
 interface IBookingModalProps {
@@ -14,28 +16,62 @@ interface IBookingModalProps {
   bookingData?: IBooking;
 }
 
+const formatRupiahInput = (value: number | string | undefined): string => {
+  const number = Number(value || 0);
+  return `Rp ${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
+};
+
+const parseRupiahInput = (value: string | undefined): number => {
+  return Number(value?.replace(/[^\d]/g, '') || 0);
+};
+
 const BookingModal = ({ open, onCancel, bookingData }: IBookingModalProps) => {
-  const [form] = Form.useForm();
   const { mutate: createBooking, isPending: isCreating } = useCreateBooking();
   const { mutate: updateBooking, isPending: isUpdating } = useUpdateBooking();
   const { data: customersData } = useCustomers({ limit: 100 });
   const { data: packagesData } = usePackages({ limit: 100 });
 
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<BookingFormData>({
+    resolver: zodResolver(bookingFormSchema),
+    defaultValues: {
+      customerId: '',
+      packageId: '',
+      totalPrice: 0,
+      status: 'pending',
+      paymentStatus: 'unpaid',
+      paidAmount: 0,
+      notes: '',
+    },
+  });
+
   useEffect(() => {
     if (bookingData) {
-      form.setFieldsValue(bookingData);
+      reset({
+        customerId: bookingData.customerId,
+        packageId: bookingData.packageId,
+        totalPrice: bookingData.totalPrice,
+        status: bookingData.status,
+        paymentStatus: bookingData.paymentStatus,
+        paidAmount: bookingData.paidAmount,
+        notes: bookingData.notes,
+      });
     } else {
-      form.resetFields();
+      reset();
     }
-  }, [bookingData, form]);
+  }, [bookingData, reset]);
 
-  const onFinish = (values: ICreateBookingDto) => {
+  const onFinish = (values: BookingFormData) => {
     if (bookingData) {
       updateBooking(
         { id: bookingData.id, data: values as IUpdateBookingDto },
         {
           onSuccess: () => {
-            form.resetFields();
+            reset();
             onCancel();
           },
         }
@@ -43,7 +79,7 @@ const BookingModal = ({ open, onCancel, bookingData }: IBookingModalProps) => {
     } else {
       createBooking(values, {
         onSuccess: () => {
-          form.resetFields();
+          reset();
           onCancel();
         },
       });
@@ -55,94 +91,149 @@ const BookingModal = ({ open, onCancel, bookingData }: IBookingModalProps) => {
       title={bookingData ? 'Edit Booking' : 'Tambah Booking'}
       open={open}
       onCancel={onCancel}
-      onOk={() => form.submit()}
+      onOk={() => handleSubmit(onFinish)()}
       confirmLoading={isCreating || isUpdating}
       width={600}
     >
-      <Form form={form} layout="vertical" onFinish={onFinish}>
-        <Form.Item
-          name="customerId"
-          label="Pelanggan"
-          rules={[{ required: true, message: 'Pelanggan wajib dipilih' }]}
-        >
-          <Select
-            placeholder="Pilih pelanggan"
-            showSearch
-            filterOption={(input, option) =>
-              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-            }
-            options={customersData?.data?.map((customer) => ({
-              label: customer.name,
-              value: customer.id,
-            }))}
+      <form onSubmit={handleSubmit(onFinish)} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Pelanggan</label>
+          <Controller
+            name="customerId"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Pilih pelanggan"
+                showSearch
+                status={errors.customerId ? 'error' : ''}
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={customersData?.data?.map((customer) => ({
+                  label: customer.name,
+                  value: customer.id,
+                }))}
+                className="w-full"
+              />
+            )}
           />
-        </Form.Item>
+          {errors.customerId && (
+            <p className="text-red-500 text-sm mt-1">{errors.customerId.message}</p>
+          )}
+        </div>
 
-        <Form.Item
-          name="packageId"
-          label="Paket"
-          rules={[{ required: true, message: 'Paket wajib dipilih' }]}
-        >
-          <Select
-            placeholder="Pilih paket"
-            showSearch
-            filterOption={(input, option) =>
-              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-            }
-            options={packagesData?.data?.map((pkg) => ({
-              label: `${pkg.name} - ${pkg.type.toUpperCase()}`,
-              value: pkg.id,
-            }))}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Paket</label>
+          <Controller
+            name="packageId"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Pilih paket"
+                showSearch
+                status={errors.packageId ? 'error' : ''}
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={packagesData?.data?.map((pkg) => ({
+                  label: `${pkg.name} - ${pkg.type.toUpperCase()}`,
+                  value: pkg.id,
+                }))}
+                className="w-full"
+              />
+            )}
           />
-        </Form.Item>
+          {errors.packageId && (
+            <p className="text-red-500 text-sm mt-1">{errors.packageId.message}</p>
+          )}
+        </div>
 
-        <Form.Item
-          name="totalPrice"
-          label="Total Harga"
-          rules={[{ required: true, message: 'Total harga wajib diisi' }]}
-        >
-          <InputNumber
-            placeholder="Total harga"
-            className="w-full"
-            formatter={(value) => `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            parser={(value) => value?.replace(/Rp\s?|(,*)/g, '') as unknown as number}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Total Harga</label>
+          <Controller
+            name="totalPrice"
+            control={control}
+            render={({ field }) => (
+              <InputNumber
+                {...field}
+                placeholder="Total harga"
+                className="w-full"
+                status={errors.totalPrice ? 'error' : ''}
+                formatter={formatRupiahInput}
+                parser={parseRupiahInput}
+              />
+            )}
           />
-        </Form.Item>
+          {errors.totalPrice && (
+            <p className="text-red-500 text-sm mt-1">{errors.totalPrice.message}</p>
+          )}
+        </div>
 
         {bookingData && (
           <>
-            <Form.Item name="status" label="Status Booking">
-              <Select placeholder="Pilih status">
-                <Option value="pending">Pending</Option>
-                <Option value="confirmed">Confirmed</Option>
-                <Option value="paid">Paid</Option>
-                <Option value="cancelled">Cancelled</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item name="paymentStatus" label="Status Pembayaran">
-              <Select placeholder="Pilih status pembayaran">
-                <Option value="unpaid">Unpaid</Option>
-                <Option value="partial">Partial</Option>
-                <Option value="paid">Paid</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item name="paidAmount" label="Jumlah Dibayar">
-              <InputNumber
-                placeholder="Jumlah dibayar"
-                className="w-full"
-                formatter={(value) => `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value?.replace(/Rp\s?|(,*)/g, '') as unknown as number}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Status Booking</label>
+              <Controller
+                name="status"
+                control={control}
+                render={({ field }) => (
+                  <Select {...field} className="w-full" placeholder="Pilih status">
+                    <Select.Option value="pending">Menunggu</Select.Option>
+                    <Select.Option value="confirmed">Dikonfirmasi</Select.Option>
+                    <Select.Option value="paid">Lunas</Select.Option>
+                    <Select.Option value="cancelled">Dibatalkan</Select.Option>
+                  </Select>
+                )}
               />
-            </Form.Item>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Status Pembayaran</label>
+              <Controller
+                name="paymentStatus"
+                control={control}
+                render={({ field }) => (
+                  <Select {...field} className="w-full" placeholder="Pilih status pembayaran">
+                    <Select.Option value="unpaid">Belum Bayar</Select.Option>
+                    <Select.Option value="partial">Sebagian</Select.Option>
+                    <Select.Option value="paid">Lunas</Select.Option>
+                  </Select>
+                )}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Jumlah Dibayar</label>
+              <Controller
+                name="paidAmount"
+                control={control}
+                render={({ field }) => (
+                  <InputNumber
+                    {...field}
+                    placeholder="Jumlah dibayar"
+                    className="w-full"
+                    formatter={formatRupiahInput}
+                    parser={parseRupiahInput}
+                  />
+                )}
+              />
+            </div>
           </>
         )}
 
-        <Form.Item name="notes" label="Catatan">
-          <TextArea rows={3} placeholder="Catatan tambahan" />
-        </Form.Item>
-      </Form>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
+          <Controller
+            name="notes"
+            control={control}
+            render={({ field }) => (
+              <TextArea rows={3} placeholder="Catatan tambahan" {...field} />
+            )}
+          />
+        </div>
+      </form>
     </Modal>
   );
 };

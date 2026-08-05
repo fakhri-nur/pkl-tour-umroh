@@ -7,6 +7,9 @@ import {
 } from '@ant-design/icons';
 import { IPackageCard } from '@/types/package.type';
 
+const FALLBACK_IMAGE =
+  'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=800&auto=format&fit=crop';
+
 interface IPackageCardProps {
   package: IPackageCard;
   onDetail: (id: string) => void;
@@ -22,6 +25,10 @@ const PackageCard = ({ package: pkg, onDetail }: IPackageCardProps) => {
     return colors[status] || 'default';
   };
 
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = FALLBACK_IMAGE;
+  };
+
   return (
     <Card
       hoverable
@@ -31,6 +38,7 @@ const PackageCard = ({ package: pkg, onDetail }: IPackageCardProps) => {
           <img
             alt={pkg.title}
             src={pkg.imageUrl}
+            onError={handleImageError}
             className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
           />
           <div className="absolute top-3 right-3">

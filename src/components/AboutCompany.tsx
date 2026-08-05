@@ -74,8 +74,8 @@ const AboutCompany = () => {
 
           <div className="relative">
             <img
-              src="https://images.unsplash.com/photo-1564769625905-50e93615e769?w=700"
-              alt="Tentang Perusahaan"
+              src="https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=800&auto=format&fit=crop"
+              alt="Jemaah di Masjidil Haram"
               className="rounded-3xl shadow-2xl w-full h-[600px] object-cover"
             />
 

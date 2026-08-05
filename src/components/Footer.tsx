@@ -147,7 +147,7 @@ const Footer = () => {
         <div className="border-t border-gray-700 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
-              © 2026 Tour Travel Umroh. All rights reserved.
+              © 2026 Tour Travel Umroh. Hak cipta dilindungi undang-undang.
             </p>
             <div className="flex gap-6">
               <a href="#" className="text-gray-400 hover:text-green-400 text-sm transition-colors">

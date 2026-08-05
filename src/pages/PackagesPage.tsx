@@ -22,7 +22,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 5',
       airline: 'Garuda Indonesia',
       remainingSeats: 25,
-      imageUrl: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1527838832700-5059252407fa?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '2',
@@ -36,7 +36,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 4',
       airline: 'Saudi Airlines',
       remainingSeats: 8,
-      imageUrl: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1565552070098-0073a126829c?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '3',
@@ -50,7 +50,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 5',
       airline: 'Emirates',
       remainingSeats: 35,
-      imageUrl: 'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '4',
@@ -64,7 +64,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 4',
       airline: 'Turkish Airlines',
       remainingSeats: 30,
-      imageUrl: 'https://images.unsplash.com/photo-1555881603-1f7af8b07ba5?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '5',
@@ -78,7 +78,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 5',
       airline: 'Qatar Airways',
       remainingSeats: 12,
-      imageUrl: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '6',
@@ -92,7 +92,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 4',
       airline: 'Garuda Indonesia',
       remainingSeats: 45,
-      imageUrl: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '7',
@@ -106,7 +106,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 4',
       airline: 'Iberia',
       remainingSeats: 28,
-      imageUrl: 'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '8',
@@ -120,7 +120,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 5',
       airline: 'Emirates',
       remainingSeats: 0,
-      imageUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '9',
@@ -134,7 +134,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 5',
       airline: 'Saudi Airlines',
       remainingSeats: 10,
-      imageUrl: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '10',
@@ -148,7 +148,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 4',
       airline: 'Egypt Air',
       remainingSeats: 32,
-      imageUrl: 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '11',
@@ -162,7 +162,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 3',
       airline: 'Lion Air',
       remainingSeats: 40,
-      imageUrl: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=800&auto=format&fit=crop',
     },
     {
       id: '12',
@@ -176,7 +176,7 @@ const PackagesPage = () => {
       hotel: 'Bintang 4',
       airline: 'Royal Jordanian',
       remainingSeats: 22,
-      imageUrl: 'https://images.unsplash.com/photo-1549144511-f099e773c147?w=600',
+      imageUrl: 'https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=800&auto=format&fit=crop',
     },
   ];
 

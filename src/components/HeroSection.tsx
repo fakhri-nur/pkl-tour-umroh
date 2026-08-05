@@ -7,7 +7,7 @@ const HeroSection = () => {
       <div
         className="absolute inset-0 opacity-10"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1200)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1000&auto=format&fit=crop)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -68,8 +68,8 @@ const HeroSection = () => {
           <div className="relative hidden md:block">
             <div className="relative z-10">
               <img
-                src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600"
-                alt="Keluarga Umroh"
+                src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1000&auto=format&fit=crop"
+                alt="Ka'bah Masjidil Haram"
                 className="rounded-3xl shadow-2xl w-full h-[500px] object-cover"
               />
               <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-6 max-w-xs">

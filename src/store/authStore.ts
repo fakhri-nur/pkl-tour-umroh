@@ -35,29 +35,40 @@ export const useAuthStore = create<IAuthStore>()(
       },
 
       login: async (email: string, _password: string) => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 800));
+
+        let role = 'User';
+        let name = email.split('@')[0];
+
+        if (email.includes('superadmin')) {
+          role = 'Super Admin';
+          name = 'Ahmad Fikri';
+        } else if (email.includes('admin')) {
+          role = 'Administrator';
+        } else if (email.includes('marketing-keuangan')) {
+          role = 'Marketing & Keuangan';
+        } else if (email.includes('marketing')) {
+          role = 'Marketing';
+        } else if (email.includes('agen')) {
+          role = 'Agen Cabang';
+        } else if (email.includes('keuangan')) {
+          role = 'Keuangan';
+        } else if (email.includes('tourleader-pembimbing')) {
+          role = 'Tour Leader & Pembimbing';
+        } else if (email.includes('tourleader')) {
+          role = 'Tour Leader';
+        } else if (email.includes('pembimbing')) {
+          role = 'Pembimbing';
+        } else if (email.includes('nasabah')) {
+          role = 'Nasabah';
+          name = 'Bapak Ahmad';
+        }
 
         const dummyUser: IAuthUser = {
           id: '1',
-          name: email.split('@')[0],
+          name: name,
           email: email,
-          role: email.includes('superadmin')
-            ? 'Super Admin'
-            : email.includes('admin')
-            ? 'Administrator'
-            : email.includes('marketing')
-            ? 'Marketing'
-            : email.includes('agen')
-            ? 'Agen Cabang'
-            : email.includes('keuangan')
-            ? 'Keuangan'
-            : email.includes('tourleader')
-            ? 'Tour Leader'
-            : email.includes('pembimbing')
-            ? 'Pembimbing'
-            : email.includes('nasabah')
-            ? 'Nasabah'
-            : 'User',
+          role: role,
         };
 
         const dummyToken = `token_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;

@@ -1,10 +1,11 @@
-import { Modal, Form, Input, Select, DatePicker } from 'antd';
+import { Modal, Input, Select, DatePicker } from 'antd';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreateCustomer, useUpdateCustomer } from '@/hooks/useCustomers';
-import { ICustomer, ICreateCustomerDto, IUpdateCustomerDto } from '@/types/customer.type';
+import { ICustomer, IUpdateCustomerDto } from '@/types/customer.type';
 import { useEffect } from 'react';
 import dayjs from 'dayjs';
-
-const { Option } = Select;
+import { customerFormSchema, CustomerFormData } from '@/utils/validation';
 
 interface ICustomerModalProps {
   open: boolean;
@@ -13,25 +14,49 @@ interface ICustomerModalProps {
 }
 
 const CustomerModal = ({ open, onCancel, customerData }: ICustomerModalProps) => {
-  const [form] = Form.useForm();
   const { mutate: createCustomer, isPending: isCreating } = useCreateCustomer();
   const { mutate: updateCustomer, isPending: isUpdating } = useUpdateCustomer();
 
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CustomerFormData>({
+    resolver: zodResolver(customerFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      identityNumber: '',
+      passportNumber: '',
+      dateOfBirth: '',
+      gender: 'L',
+      address: '',
+    },
+  });
+
   useEffect(() => {
     if (customerData) {
-      form.setFieldsValue({
-        ...customerData,
-        dateOfBirth: dayjs(customerData.dateOfBirth),
+      reset({
+        name: customerData.name,
+        email: customerData.email,
+        phone: customerData.phone,
+        identityNumber: customerData.identityNumber,
+        passportNumber: customerData.passportNumber,
+        dateOfBirth: customerData.dateOfBirth,
+        gender: customerData.gender,
+        address: customerData.address,
       });
     } else {
-      form.resetFields();
+      reset();
     }
-  }, [customerData, form]);
+  }, [customerData, reset]);
 
-  const onFinish = (values: ICreateCustomerDto & { dateOfBirth: dayjs.Dayjs }) => {
+  const onFinish = (values: CustomerFormData) => {
     const payload = {
       ...values,
-      dateOfBirth: values.dateOfBirth.toISOString(),
+      dateOfBirth: dayjs(values.dateOfBirth).toISOString(),
     };
 
     if (customerData) {
@@ -39,7 +64,7 @@ const CustomerModal = ({ open, onCancel, customerData }: ICustomerModalProps) =>
         { id: customerData.id, data: payload as IUpdateCustomerDto },
         {
           onSuccess: () => {
-            form.resetFields();
+            reset();
             onCancel();
           },
         }
@@ -47,7 +72,7 @@ const CustomerModal = ({ open, onCancel, customerData }: ICustomerModalProps) =>
     } else {
       createCustomer(payload, {
         onSuccess: () => {
-          form.resetFields();
+          reset();
           onCancel();
         },
       });
@@ -59,80 +84,135 @@ const CustomerModal = ({ open, onCancel, customerData }: ICustomerModalProps) =>
       title={customerData ? 'Edit Pelanggan' : 'Tambah Pelanggan'}
       open={open}
       onCancel={onCancel}
-      onOk={() => form.submit()}
+      onOk={() => handleSubmit(onFinish)()}
       confirmLoading={isCreating || isUpdating}
       width={600}
     >
-      <Form form={form} layout="vertical" onFinish={onFinish}>
-        <Form.Item
-          name="name"
-          label="Nama Lengkap"
-          rules={[{ required: true, message: 'Nama wajib diisi' }]}
-        >
-          <Input placeholder="Nama lengkap" />
-        </Form.Item>
+      <form onSubmit={handleSubmit(onFinish)} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Nama lengkap"
+                status={errors.name ? 'error' : ''}
+              />
+            )}
+          />
+          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+        </div>
 
-        <Form.Item
-          name="email"
-          label="Email"
-          rules={[
-            { required: true, message: 'Email wajib diisi' },
-            { type: 'email', message: 'Format email tidak valid' },
-          ]}
-        >
-          <Input placeholder="Email" />
-        </Form.Item>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Input {...field} placeholder="Email" status={errors.email ? 'error' : ''} />
+            )}
+          />
+          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+        </div>
 
-        <Form.Item
-          name="phone"
-          label="Telepon"
-          rules={[{ required: true, message: 'Telepon wajib diisi' }]}
-        >
-          <Input placeholder="Telepon" />
-        </Form.Item>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Telepon</label>
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field }) => (
+              <Input {...field} placeholder="Telepon" status={errors.phone ? 'error' : ''} />
+            )}
+          />
+          {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
+        </div>
 
-        <Form.Item
-          name="identityNumber"
-          label="NIK"
-          rules={[
-            { required: true, message: 'NIK wajib diisi' },
-            { len: 16, message: 'NIK harus 16 digit' },
-          ]}
-        >
-          <Input placeholder="NIK" maxLength={16} />
-        </Form.Item>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">NIK</label>
+          <Controller
+            name="identityNumber"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="NIK"
+                maxLength={16}
+                status={errors.identityNumber ? 'error' : ''}
+              />
+            )}
+          />
+          {errors.identityNumber && (
+            <p className="text-red-500 text-sm mt-1">{errors.identityNumber.message}</p>
+          )}
+        </div>
 
-        <Form.Item name="passportNumber" label="Nomor Paspor">
-          <Input placeholder="Nomor paspor" />
-        </Form.Item>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Nomor Paspor</label>
+          <Controller
+            name="passportNumber"
+            control={control}
+            render={({ field }) => <Input {...field} placeholder="Nomor paspor" />}
+          />
+        </div>
 
-        <Form.Item
-          name="dateOfBirth"
-          label="Tanggal Lahir"
-          rules={[{ required: true, message: 'Tanggal lahir wajib diisi' }]}
-        >
-          <DatePicker className="w-full" format="DD-MM-YYYY" />
-        </Form.Item>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Tanggal Lahir</label>
+          <Controller
+            name="dateOfBirth"
+            control={control}
+            render={({ field }) => (
+              <DatePicker
+                className="w-full"
+                format="DD-MM-YYYY"
+                status={errors.dateOfBirth ? 'error' : ''}
+                onChange={(date) => field.onChange(date?.toISOString() ?? '')}
+              />
+            )}
+          />
+          {errors.dateOfBirth && (
+            <p className="text-red-500 text-sm mt-1">{errors.dateOfBirth.message}</p>
+          )}
+        </div>
 
-        <Form.Item
-          name="gender"
-          label="Jenis Kelamin"
-          rules={[{ required: true, message: 'Jenis kelamin wajib dipilih' }]}
-        >
-          <Select placeholder="Pilih jenis kelamin">
-            <Option value="L">Laki-laki</Option>
-            <Option value="P">Perempuan</Option>
-          </Select>
-        </Form.Item>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Jenis Kelamin</label>
+          <Controller
+            name="gender"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                className="w-full"
+                placeholder="Pilih jenis kelamin"
+                status={errors.gender ? 'error' : ''}
+              >
+                <Select.Option value="L">Laki-laki</Select.Option>
+                <Select.Option value="P">Perempuan</Select.Option>
+              </Select>
+            )}
+          />
+          {errors.gender && <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>}
+        </div>
 
-        <Form.Item
-          name="address"
-          label="Alamat"
-          rules={[{ required: true, message: 'Alamat wajib diisi' }]}
-        >
-          <Input.TextArea rows={3} placeholder="Alamat lengkap" />
-        </Form.Item>
-      </Form>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Alamat</label>
+          <Controller
+            name="address"
+            control={control}
+            render={({ field }) => (
+              <Input.TextArea
+                rows={3}
+                placeholder="Alamat lengkap"
+                {...field}
+                status={errors.address ? 'error' : ''}
+              />
+            )}
+          />
+          {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
+        </div>
+      </form>
     </Modal>
   );
 };

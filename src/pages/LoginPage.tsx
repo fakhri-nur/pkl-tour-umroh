@@ -9,13 +9,11 @@ import {
   EyeOutlined,
   SafetyOutlined,
   SettingOutlined,
-  SoundOutlined,
   ShopOutlined,
-  DollarOutlined,
-  FlagOutlined,
-  BookOutlined,
   UserOutlined,
-  CrownOutlined,
+  SafetyCertificateOutlined,
+  BankOutlined,
+  TeamOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
@@ -44,7 +42,18 @@ const LoginPage = () => {
 
     if (result.success) {
       message.success(result.message);
-      navigate('/dashboard');
+      
+      if (data.email.includes('superadmin')) {
+        navigate('/super-admin/dashboard');
+      } else if (data.email.includes('admin')) {
+        navigate('/admin/dashboard');
+      } else if (data.email.includes('agen')) {
+        navigate('/agen/dashboard');
+      } else if (data.email.includes('nasabah')) {
+        navigate('/jemaah/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } else {
       message.error(result.message);
     }
@@ -55,57 +64,43 @@ const LoginPage = () => {
       name: 'Super Admin',
       email: 'superadmin@intantravel.com',
       password: 'password123',
-      icon: <CrownOutlined />,
-      color: 'bg-blue-100 hover:bg-blue-200 text-blue-700 border-blue-300',
+      icon: <SafetyCertificateOutlined />,
+      color: 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100',
     },
     {
       name: 'Administrator',
       email: 'admin@intantravel.com',
       password: 'password123',
       icon: <SettingOutlined />,
-      color: 'bg-orange-100 hover:bg-orange-200 text-orange-700 border-orange-300',
-    },
-    {
-      name: 'Marketing',
-      email: 'marketing@intantravel.com',
-      password: 'password123',
-      icon: <SoundOutlined />,
-      color: 'bg-sky-100 hover:bg-sky-200 text-sky-700 border-sky-300',
+      color: 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100',
     },
     {
       name: 'Agen Cabang',
       email: 'agen@intantravel.com',
       password: 'password123',
       icon: <ShopOutlined />,
-      color: 'bg-yellow-100 hover:bg-yellow-200 text-yellow-700 border-yellow-300',
+      color: 'bg-yellow-50 border-yellow-200 text-yellow-700 hover:bg-yellow-100',
     },
     {
-      name: 'Keuangan',
-      email: 'keuangan@intantravel.com',
+      name: 'Marketing & Keuangan',
+      email: 'marketing-keuangan@intantravel.com',
       password: 'password123',
-      icon: <DollarOutlined />,
-      color: 'bg-green-100 hover:bg-green-200 text-green-700 border-green-300',
+      icon: <BankOutlined />,
+      color: 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100',
     },
     {
-      name: 'Tour Leader',
-      email: 'tourleader@intantravel.com',
+      name: 'Tour Leader & Pembimbing',
+      email: 'tourleader-pembimbing@intantravel.com',
       password: 'password123',
-      icon: <FlagOutlined />,
-      color: 'bg-cyan-100 hover:bg-cyan-200 text-cyan-700 border-cyan-300',
-    },
-    {
-      name: 'Pembimbing',
-      email: 'pembimbing@intantravel.com',
-      password: 'password123',
-      icon: <BookOutlined />,
-      color: 'bg-purple-100 hover:bg-purple-200 text-purple-700 border-purple-300',
+      icon: <TeamOutlined />,
+      color: 'bg-cyan-50 border-cyan-200 text-cyan-700 hover:bg-cyan-100',
     },
     {
       name: 'Nasabah',
       email: 'nasabah@intantravel.com',
       password: 'password123',
       icon: <UserOutlined />,
-      color: 'bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300',
+      color: 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100',
     },
   ];
 
@@ -233,16 +228,16 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-w-md mx-auto">
             {roleSimulators.map((role, index) => (
               <button
                 key={index}
                 type="button"
                 onClick={() => handleRoleSelect(role)}
-                className={`${role.color} border-2 rounded-lg p-3 flex flex-col items-center gap-2 transition-all hover:scale-105`}
+                className={`${role.color} border-2 rounded-xl p-3 min-h-[84px] flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5`}
               >
-                <span className="text-2xl">{role.icon}</span>
-                <span className="text-xs font-semibold text-center leading-tight">
+                <span className="text-xl mb-1.5">{role.icon}</span>
+                <span className="text-[11px] font-bold leading-tight tracking-wide uppercase px-1">
                   {role.name}
                 </span>
               </button>
@@ -250,7 +245,7 @@ const LoginPage = () => {
           </div>
 
           <p className="text-center text-sm text-gray-500">
-            © 2026 Intan Travel Internasional. All rights reserved.
+            © 2026 Intan Travel Internasional. Hak cipta dilindungi undang-undang.
           </p>
         </div>
       </div>

@@ -84,7 +84,7 @@ const AboutPage = () => {
             <Col xs={24} lg={12}>
               <div className="relative">
                 <img
-                  src="https://images.unsplash.com/photo-1564769625905-50e93615e769?w=700"
+                  src="https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=800&auto=format&fit=crop"
                   alt="Intan Travel"
                   className="rounded-3xl shadow-2xl w-full h-[500px] object-cover"
                 />

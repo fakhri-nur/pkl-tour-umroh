@@ -148,10 +148,10 @@ const BookingPage = () => {
             onChange={setStatus}
             className="w-48"
           >
-            <Option value="pending">Pending</Option>
-            <Option value="confirmed">Confirmed</Option>
-            <Option value="paid">Paid</Option>
-            <Option value="cancelled">Cancelled</Option>
+            <Option value="pending">Menunggu</Option>
+            <Option value="confirmed">Dikonfirmasi</Option>
+            <Option value="paid">Lunas</Option>
+            <Option value="cancelled">Dibatalkan</Option>
           </Select>
         </div>
 

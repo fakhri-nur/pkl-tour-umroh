@@ -10,6 +10,35 @@ import CustomerPage from '@/pages/CustomerPage';
 import BookingPage from '@/pages/BookingPage';
 import MainLayout from '@/components/MainLayout';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import SuperAdminLayout from '@/layouts/SuperAdminLayout';
+import SuperAdminDashboard from '@/pages/super-admin/DashboardPage';
+import UserRolesPage from '@/pages/super-admin/UserRolesPage';
+import GlobalSettingsPage from '@/pages/super-admin/GlobalSettingsPage';
+import AuditLogsPage from '@/pages/super-admin/AuditLogsPage';
+import SystemHealthPage from '@/pages/super-admin/SystemHealthPage';
+import AdminLayout from '@/layouts/AdminLayout';
+import AdminDashboardPage from '@/pages/admin/AdminDashboardPage';
+import JemaahRecordsPage from '@/pages/admin/JemaahRecordsPage';
+import PaymentsPage from '@/pages/admin/PaymentsPage';
+import AdminPackagesPage from '@/pages/admin/PackagesPage';
+import SchedulesPage from '@/pages/admin/SchedulesPage';
+import DocumentsPage from '@/pages/admin/DocumentsPage';
+import NewsPage from '@/pages/admin/NewsPage';
+import AdminSettingsPage from '@/pages/admin/AdminSettingsPage';
+import AgenLayout from '@/layouts/AgenLayout';
+import AgenDashboardPage from '@/pages/agen/AgenDashboardPage';
+import MyJemaahPage from '@/pages/agen/MyJemaahPage';
+import AgenRegistrationPage from '@/pages/agen/AgenRegistrationPage';
+import CommissionsPage from '@/pages/agen/CommissionsPage';
+import AgenPackagesPage from '@/pages/agen/AgenPackagesPage';
+import MaterialsPage from '@/pages/agen/MaterialsPage';
+import NasabahLayout from '@/layouts/NasabahLayout';
+import NasabahDashboardPage from '@/pages/jemaah/NasabahDashboardPage';
+import JemaahDocumentsPage from '@/pages/jemaah/DocumentsPage';
+import JemaahPaymentsPage from '@/pages/jemaah/PaymentsPage';
+import ItineraryPage from '@/pages/jemaah/ItineraryPage';
+import GuidesPage from '@/pages/jemaah/GuidesPage';
+import ProfilePage from '@/pages/jemaah/ProfilePage';
 
 const AppRoutes = () => {
   return (
@@ -20,6 +49,266 @@ const AppRoutes = () => {
         <Route path="/tentang-kami" element={<AboutPage />} />
         <Route path="/kontak" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage />} />
+        
+        {/* Super Admin Routes */}
+        <Route
+          path="/super-admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <SuperAdminLayout>
+                <SuperAdminDashboard />
+              </SuperAdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/super-admin/users"
+          element={
+            <ProtectedRoute>
+              <SuperAdminLayout>
+                <UserRolesPage />
+              </SuperAdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/super-admin/settings"
+          element={
+            <ProtectedRoute>
+              <SuperAdminLayout>
+                <GlobalSettingsPage />
+              </SuperAdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/super-admin/audit"
+          element={
+            <ProtectedRoute>
+              <SuperAdminLayout>
+                <AuditLogsPage />
+              </SuperAdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/super-admin/health"
+          element={
+            <ProtectedRoute>
+              <SuperAdminLayout>
+                <SystemHealthPage />
+              </SuperAdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Admin Routes */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <AdminDashboardPage />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/jemaah"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <JemaahRecordsPage />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/payments"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <PaymentsPage />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/packages"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <AdminPackagesPage />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/schedules"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <SchedulesPage />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/documents"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <DocumentsPage />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/news"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <NewsPage />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/settings"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <AdminSettingsPage />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Agen Routes */}
+        <Route
+          path="/agen/dashboard"
+          element={
+            <ProtectedRoute>
+              <AgenLayout>
+                <AgenDashboardPage />
+              </AgenLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agen/jemaah"
+          element={
+            <ProtectedRoute>
+              <AgenLayout>
+                <MyJemaahPage />
+              </AgenLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agen/registrations"
+          element={
+            <ProtectedRoute>
+              <AgenLayout>
+                <AgenRegistrationPage />
+              </AgenLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agen/commissions"
+          element={
+            <ProtectedRoute>
+              <AgenLayout>
+                <CommissionsPage />
+              </AgenLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agen/packages"
+          element={
+            <ProtectedRoute>
+              <AgenLayout>
+                <AgenPackagesPage />
+              </AgenLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agen/materials"
+          element={
+            <ProtectedRoute>
+              <AgenLayout>
+                <MaterialsPage />
+              </AgenLayout>
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Nasabah / Jamaah Routes */}
+        <Route
+          path="/jemaah/dashboard"
+          element={
+            <ProtectedRoute>
+              <NasabahLayout>
+                <NasabahDashboardPage />
+              </NasabahLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/jemaah/documents"
+          element={
+            <ProtectedRoute>
+              <NasabahLayout>
+                <JemaahDocumentsPage />
+              </NasabahLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/jemaah/payments"
+          element={
+            <ProtectedRoute>
+              <NasabahLayout>
+                <JemaahPaymentsPage />
+              </NasabahLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/jemaah/itinerary"
+          element={
+            <ProtectedRoute>
+              <NasabahLayout>
+                <ItineraryPage />
+              </NasabahLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/jemaah/guides"
+          element={
+            <ProtectedRoute>
+              <NasabahLayout>
+                <GuidesPage />
+              </NasabahLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/jemaah/profile"
+          element={
+            <ProtectedRoute>
+              <NasabahLayout>
+                <ProfilePage />
+              </NasabahLayout>
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Default Dashboard Routes */}
         <Route
           path="/dashboard"
           element={
