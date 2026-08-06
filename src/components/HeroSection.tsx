@@ -66,12 +66,14 @@ const HeroSection = () => {
           </div>
 
           <div className="relative hidden md:block">
-            <div className="relative z-10">
-              <img
-                src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1000&auto=format&fit=crop"
-                alt="Ka'bah Masjidil Haram"
-                className="rounded-3xl shadow-2xl w-full h-[500px] object-cover"
-              />
+            <div className="relative z-10 group transition-transform duration-300 ease-out hover:-translate-y-2">
+              <div className="relative rounded-3xl overflow-hidden shadow-lg transition-shadow duration-300 group-hover:shadow-2xl">
+                <img
+                  src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1000&auto=format&fit=crop"
+                  alt="Ka'bah Masjidil Haram"
+                  className="w-full h-[500px] object-cover scale-105 transition-transform duration-700 ease-out group-hover:translate-x-3 group-hover:-translate-y-2"
+                />
+              </div>
               <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-6 max-w-xs">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">

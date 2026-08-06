@@ -39,6 +39,19 @@ import JemaahPaymentsPage from '@/pages/jemaah/PaymentsPage';
 import ItineraryPage from '@/pages/jemaah/ItineraryPage';
 import GuidesPage from '@/pages/jemaah/GuidesPage';
 import ProfilePage from '@/pages/jemaah/ProfilePage';
+import MarketingFinanceLayout from '@/layouts/MarketingFinanceLayout';
+import MarketingDashboardPage from '@/pages/marketing/MarketingDashboardPage';
+import CampaignsPage from '@/pages/marketing/CampaignsPage';
+import LeadsPipelinePage from '@/pages/marketing/LeadsPipelinePage';
+import AnalyticsPage from '@/pages/marketing/AnalyticsPage';
+import FinancePage from '@/pages/marketing/FinancePage';
+import TourLeaderLayout from '@/layouts/TourLeaderLayout';
+import TourLeaderDashboardPage from '@/pages/tour-leader/TourLeaderDashboardPage';
+import TourLeaderJemaahRecordsPage from '@/pages/tour-leader/JemaahRecordsPage';
+import TourLeaderPaymentsPage from '@/pages/tour-leader/TourLeaderPaymentsPage';
+import TourLeaderPackagesPage from '@/pages/tour-leader/TourLeaderPackagesPage';
+import TourLeaderDocumentsPage from '@/pages/tour-leader/TourLeaderDocumentsPage';
+import TourLeaderSettingsPage from '@/pages/tour-leader/TourLeaderSettingsPage';
 
 const AppRoutes = () => {
   return (
@@ -308,6 +321,120 @@ const AppRoutes = () => {
           }
         />
         
+        {/* Marketing & Keuangan Routes */}
+        <Route
+          path="/marketing/dashboard"
+          element={
+            <ProtectedRoute>
+              <MarketingFinanceLayout>
+                <MarketingDashboardPage />
+              </MarketingFinanceLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/marketing/campaigns"
+          element={
+            <ProtectedRoute>
+              <MarketingFinanceLayout>
+                <CampaignsPage />
+              </MarketingFinanceLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/marketing/leads"
+          element={
+            <ProtectedRoute>
+              <MarketingFinanceLayout>
+                <LeadsPipelinePage />
+              </MarketingFinanceLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/marketing/analytics"
+          element={
+            <ProtectedRoute>
+              <MarketingFinanceLayout>
+                <AnalyticsPage />
+              </MarketingFinanceLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/marketing/finance"
+          element={
+            <ProtectedRoute>
+              <MarketingFinanceLayout>
+                <FinancePage />
+              </MarketingFinanceLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Tour Leader & Pembimbing Routes */}
+        <Route
+          path="/tour-leader/dashboard"
+          element={
+            <ProtectedRoute>
+              <TourLeaderLayout>
+                <TourLeaderDashboardPage />
+              </TourLeaderLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tour-leader/jemaah"
+          element={
+            <ProtectedRoute>
+              <TourLeaderLayout>
+                <TourLeaderJemaahRecordsPage />
+              </TourLeaderLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tour-leader/payments"
+          element={
+            <ProtectedRoute>
+              <TourLeaderLayout>
+                <TourLeaderPaymentsPage />
+              </TourLeaderLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tour-leader/packages"
+          element={
+            <ProtectedRoute>
+              <TourLeaderLayout>
+                <TourLeaderPackagesPage />
+              </TourLeaderLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tour-leader/documents"
+          element={
+            <ProtectedRoute>
+              <TourLeaderLayout>
+                <TourLeaderDocumentsPage />
+              </TourLeaderLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tour-leader/settings"
+          element={
+            <ProtectedRoute>
+              <TourLeaderLayout>
+                <TourLeaderSettingsPage />
+              </TourLeaderLayout>
+            </ProtectedRoute>
+          }
+        />
+
         {/* Default Dashboard Routes */}
         <Route
           path="/dashboard"

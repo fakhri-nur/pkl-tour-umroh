@@ -67,3 +67,55 @@ export const packageFormSchema = z.object({
 });
 
 export type PackageFormData = z.infer<typeof packageFormSchema>;
+
+const marketingPlatformEnum = z.enum(
+  ['Facebook Ads', 'Google Search', 'Instagram', 'Referral', 'WhatsApp', 'Website'],
+  { required_error: 'Pilih platform iklan' }
+);
+
+export const campaignFormSchema = z.object({
+  name: z.string().min(3, 'Nama kampanye minimal 3 karakter'),
+  platform: marketingPlatformEnum,
+  status: z.enum(['Active', 'Paused'], { required_error: 'Pilih status kampanye' }),
+  budget: z.coerce
+    .number({ invalid_type_error: 'Anggaran wajib diisi' })
+    .positive('Anggaran harus lebih dari 0'),
+  spent: z.coerce
+    .number({ invalid_type_error: 'Terpakai wajib diisi' })
+    .nonnegative('Terpakai tidak boleh negatif'),
+  conversions: z.coerce
+    .number({ invalid_type_error: 'Konversi wajib diisi' })
+    .nonnegative('Konversi tidak boleh negatif'),
+  startDate: z.string().min(1, 'Tanggal mulai wajib diisi'),
+  endDate: z.string().min(1, 'Tanggal selesai wajib diisi'),
+});
+
+export type CampaignFormData = z.infer<typeof campaignFormSchema>;
+
+export const leadFormSchema = z.object({
+  name: z.string().min(3, 'Nama prospek minimal 3 karakter'),
+  phone: z
+    .string()
+    .min(10, 'Nomor telepon minimal 10 karakter')
+    .regex(/^[0-9+\-\s]+$/, 'Format nomor tidak valid'),
+  email: z.string().email('Format email tidak valid'),
+  source: marketingPlatformEnum,
+  status: z.enum(['New', 'Contacted', 'Converted', 'Lost'], {
+    required_error: 'Pilih status leads',
+  }),
+  packageInterest: z.string().min(1, 'Pilih paket yang diminati'),
+});
+
+export type LeadFormData = z.infer<typeof leadFormSchema>;
+
+export const tourLeaderProfileSchema = z.object({
+  fullName: z.string().min(3, 'Nama lengkap minimal 3 karakter'),
+  email: z.string().email('Format email tidak valid'),
+  phone: z
+    .string()
+    .min(10, 'Nomor telepon minimal 10 karakter')
+    .regex(/^[0-9+\-\s]+$/, 'Format nomor tidak valid'),
+  certification: z.string().min(1, 'Sertifikasi wajib diisi'),
+});
+
+export type TourLeaderProfileFormData = z.infer<typeof tourLeaderProfileSchema>;

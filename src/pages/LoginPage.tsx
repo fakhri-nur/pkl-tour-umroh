@@ -49,6 +49,10 @@ const LoginPage = () => {
         navigate('/admin/dashboard');
       } else if (data.email.includes('agen')) {
         navigate('/agen/dashboard');
+      } else if (data.email.includes('marketing') || data.email.includes('keuangan')) {
+        navigate('/marketing/dashboard');
+      } else if (data.email.includes('tourleader') || data.email.includes('pembimbing')) {
+        navigate('/tour-leader/dashboard');
       } else if (data.email.includes('nasabah')) {
         navigate('/jemaah/dashboard');
       } else {
