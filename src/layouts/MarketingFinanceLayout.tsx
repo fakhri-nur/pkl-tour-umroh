@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Layout, Menu, Card } from 'antd';
+import { Layout, Menu, Avatar, Tooltip } from 'antd';
 import {
   DashboardOutlined,
   RocketOutlined,
@@ -8,10 +8,12 @@ import {
   BarChartOutlined,
   DollarOutlined,
   LogoutOutlined,
+  LeftOutlined,
+  RightOutlined,
   QuestionCircleOutlined,
   CustomerServiceOutlined,
-  EnvironmentOutlined,
   PhoneOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { useAuthStore } from '@/store/authStore';
 
@@ -64,91 +66,91 @@ const MarketingFinanceLayout: React.FC<MarketingFinanceLayoutProps> = ({ childre
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
         collapsible
+        trigger={null}
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
-        width={260}
+        width={256}
+        collapsedWidth={80}
+        className="sidebar-layout w-64 h-screen max-h-screen sticky top-0 left-0 flex flex-col overflow-hidden p-4 bg-[#0F2942] text-white"
         style={{
-          background: '#0c2340',
-          position: 'fixed',
-          height: '100vh',
-          left: 0,
-          top: 0,
-          bottom: 0,
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
+          background: '#0F2942',
         }}
       >
-        {/* TOP SECTION - Brand Header + Menu */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="px-6 py-5 flex items-center gap-3 border-b border-blue-900 flex-shrink-0">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-[#0c2340] font-bold text-base">IT</span>
+        {/* 1. HEADER - Fixed at top */}
+        <div className="flex-shrink-0 mb-4 flex items-center gap-3">
+          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
+            <span className="text-[#0F2942] font-bold text-base">IT</span>
+          </div>
+          {!collapsed && (
+            <div className="flex flex-col">
+              <span className="text-white font-bold text-sm">Intan Travel</span>
+              <span className="text-amber-400 text-xs font-semibold leading-tight">
+                PORTAL MARKETING & KEUANGAN
+              </span>
             </div>
-            {!collapsed && (
-              <div className="flex flex-col">
-                <span className="text-white font-bold text-sm">Intan Travel</span>
-                <span className="text-amber-400 text-xs font-semibold leading-tight">
-                  PORTAL MARKETING & KEUANGAN
-                </span>
-              </div>
-            )}
-          </div>
-
-          <div className="flex-1 overflow-y-auto">
-            <Menu
-              theme="dark"
-              mode="inline"
-              selectedKeys={[location.pathname]}
-              items={menuItems}
-              style={{
-                background: '#0c2340',
-                borderRight: 0,
-                marginTop: '16px',
-              }}
-              className="marketing-menu"
-            />
-          </div>
+          )}
         </div>
 
-        {/* BOTTOM SECTION - Contact Support + Logout */}
-        <div className="flex-shrink-0 pt-4 border-t border-slate-700/50 space-y-3 px-6 pb-6 bg-[#0a1d33]">
+        {/* 2. NAVIGATION MENU - Scrollable only if needed */}
+        <nav className="flex-1 overflow-y-auto min-h-0 space-y-1 pr-1 custom-scrollbar">
+          <Menu
+            theme="dark"
+            mode="inline"
+            selectedKeys={[location.pathname]}
+            items={menuItems}
+            style={{
+              background: '#0F2942',
+              borderRight: 0,
+            }}
+            className="marketing-menu"
+          />
+        </nav>
+
+        {/* 3. FOOTER SECTION - Always fixed at bottom */}
+        <div className="flex-shrink-0 pt-3 mt-auto border-t border-slate-700/50 space-y-2">
           {!collapsed && (
-            <Card
-              size="small"
-              className="!bg-slate-800/60 !border-slate-700"
-              bodyStyle={{ padding: '12px' }}
-            >
-              <div className="flex items-start gap-2 mb-2">
-                <CustomerServiceOutlined className="text-amber-400 text-lg mt-0.5" />
-                <div>
-                  <p className="text-white font-semibold text-xs">Contact Support</p>
-                  <p className="text-gray-400 text-[11px] leading-snug mt-0.5">
-                    Tim kami siap membantu 24/7.
-                  </p>
-                </div>
-              </div>
-              <div className="space-y-1.5 text-[11px] text-gray-300">
-                <p className="flex items-center gap-2">
-                  <EnvironmentOutlined className="text-gray-500" /> Jl. Sudirman No. 123, Jakarta
-                </p>
-                <p className="flex items-center gap-2">
-                  <PhoneOutlined className="text-gray-500" /> +62 812 3456 7890
-                </p>
-              </div>
+            <div className="p-2.5 my-2 text-xs rounded-lg bg-slate-800/40 border border-slate-700/40 space-y-1">
+              <p className="flex items-center gap-2 text-white font-semibold">
+                <CustomerServiceOutlined className="text-amber-400" />
+                Contact Support
+              </p>
+              <p className="flex items-center gap-2 text-gray-400">
+                <PhoneOutlined className="text-gray-500" />
+                +62 812 3456 7890
+              </p>
               <a
                 href="#"
-                className="mt-3 inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 text-xs font-semibold transition-colors"
+                className="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-semibold"
               >
                 <QuestionCircleOutlined />
-                <span>Pusat Bantuan</span>
+                Pusat Bantuan
               </a>
-            </Card>
+            </div>
           )}
 
           {collapsed && (
             <div className="flex justify-center mb-2">
               <CustomerServiceOutlined className="text-amber-400 text-xl" />
+            </div>
+          )}
+
+          {!collapsed && (
+            <div className="flex items-center gap-3 px-2 py-2 rounded-lg bg-slate-800/50">
+              <Avatar size={36} icon={<UserOutlined />} style={{ backgroundColor: '#1890ff' }} />
+              <div className="flex flex-col flex-1 min-w-0">
+                <span className="text-white font-semibold text-sm truncate">
+                  {user?.name || 'Marketing'}
+                </span>
+                <span className="text-gray-400 text-xs truncate">
+                  {user?.role || 'Marketing & Keuangan'}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {collapsed && (
+            <div className="flex justify-center mb-2">
+              <Avatar size={32} icon={<UserOutlined />} style={{ backgroundColor: '#1890ff' }} />
             </div>
           )}
 
@@ -162,15 +164,29 @@ const MarketingFinanceLayout: React.FC<MarketingFinanceLayoutProps> = ({ childre
             {!collapsed && <span>Logout</span>}
           </button>
 
-          {!collapsed && (
-            <p className="text-[10px] text-gray-500 text-center pt-1">
-              {user?.name || 'Marketing'} • {user?.role || 'Marketing & Keuangan'}
-            </p>
-          )}
+          {/* Tombol Collapse Sidebar */}
+          <div className="pt-1 w-full">
+  <Tooltip title={collapsed ? 'Perluas Sidebar' : 'Kecilkan Sidebar'} placement="right">
+    <button
+      onClick={() => setCollapsed((prev) => !prev)}
+      aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+      className="w-full py-2.5 px-4 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all duration-200 flex items-center gap-3 justify-center"
+    >
+      {collapsed ? (
+        <RightOutlined />
+      ) : (
+        <>
+          <LeftOutlined />
+          <span className="text-sm font-medium"></span>
+        </>
+      )}
+    </button>
+  </Tooltip>
+</div>
         </div>
       </Sider>
 
-      <Layout style={{ marginLeft: collapsed ? 80 : 260, transition: 'margin-left 0.2s' }}>
+      <Layout>
         <Content style={{ background: '#f5f5f5', minHeight: '100vh' }}>{children}</Content>
       </Layout>
 
@@ -191,6 +207,28 @@ const MarketingFinanceLayout: React.FC<MarketingFinanceLayoutProps> = ({ childre
         }
         .marketing-menu {
           height: 100%;
+        }
+        .sidebar-layout .ant-layout-sider-children {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.35);
         }
       `}</style>
     </Layout>

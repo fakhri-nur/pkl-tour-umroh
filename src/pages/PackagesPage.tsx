@@ -1,13 +1,18 @@
 import { useState } from 'react';
-import { Tabs } from 'antd';
+import { useSearchParams } from 'react-router-dom';
+import { Tabs, Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import PackageCard from '@/components/PackageCard';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import PageTransition from '@/components/PageTransition';
 import { IPackageCard } from '@/types/package.type';
 import './PackagesPage.css';
 
 const PackagesPage = () => {
+  const [searchParams] = useSearchParams();
   const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [searchText, setSearchText] = useState<string>(() => searchParams.get('search') ?? '');
 
   const packagesData: IPackageCard[] = [
     {
@@ -180,10 +185,16 @@ const PackagesPage = () => {
     },
   ];
 
-  const filteredPackages =
-    activeCategory === 'all'
-      ? packagesData
-      : packagesData.filter((pkg) => pkg.category === activeCategory);
+  const filteredPackages = packagesData.filter((pkg) => {
+    const matchesCategory = activeCategory === 'all' || pkg.category === activeCategory;
+    const query = searchText.trim().toLowerCase();
+    const matchesSearch =
+      query === '' ||
+      pkg.title.toLowerCase().includes(query) ||
+      pkg.description.toLowerCase().includes(query) ||
+      pkg.code.toLowerCase().includes(query);
+    return matchesCategory && matchesSearch;
+  });
 
   const handleDetail = (id: string) => {
     window.location.href = `/#/package-detail/${id}`;
@@ -209,10 +220,11 @@ const PackagesPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <PageTransition>
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
 
-      <section className="py-16">
+        <section className="py-16">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-800 mb-4">Pilihan Paket Terbaik</h1>
@@ -220,6 +232,17 @@ const PackagesPage = () => {
               Temukan paket umrah, haji, dan wisata halal terbaik dengan fasilitas lengkap dan
               harga kompetitif. Dipandu oleh pembimbing berpengalaman dan terpercaya.
             </p>
+          </div>
+
+          <div className="max-w-xl mx-auto mb-8">
+            <Input
+              size="large"
+              placeholder="Cari paket umroh atau haji..."
+              prefix={<SearchOutlined className="text-gray-400" />}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              allowClear
+            />
           </div>
 
           <div className="mb-8">
@@ -241,14 +264,15 @@ const PackagesPage = () => {
 
           {filteredPackages.length === 0 && (
             <div className="text-center py-16">
-              <p className="text-gray-500 text-lg">Tidak ada paket tersedia untuk kategori ini</p>
+              <p className="text-gray-500 text-lg">Tidak ada paket yang cocok dengan pencarian Anda</p>
             </div>
           )}
         </div>
       </section>
 
       <Footer />
-    </div>
+      </div>
+    </PageTransition>
   );
 };
 

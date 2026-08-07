@@ -75,10 +75,12 @@ const ContactPage = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <section className="py-16 bg-gradient-to-br from-blue-900 to-blue-800">
+      <section className="py-16 bg-slate-50">
         <div className="container mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold text-white mb-4">Hubungi Kami</h1>
-          <p className="text-xl text-gray-200 max-w-3xl mx-auto">
+          <h1 className="text-5xl font-bold text-[#0F2942] mb-4">
+            Hubungi <span className="text-emerald-600">Kami</span>
+          </h1>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Kami siap membantu menjawab pertanyaan dan memfasilitasi kebutuhan perjalanan ibadah
             Anda.
           </p>

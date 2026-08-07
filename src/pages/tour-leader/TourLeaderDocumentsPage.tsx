@@ -81,7 +81,7 @@ const TourLeaderDocumentsPage = () => {
         <div className="flex items-center rounded-lg bg-white border border-gray-200 px-3 py-2 w-full sm:w-72">
           <SearchOutlined className="text-gray-400 mr-2" />
           <input
-            className="w-full outline-none text-sm bg-transparent"
+            className="w-full border-none outline-none bg-transparent text-sm focus:outline-none focus:ring-0"
             placeholder="Cari nama jamaah..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}

@@ -1,7 +1,21 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Input, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = () => {
+    const query = searchQuery.trim();
+    if (query) {
+      navigate(`/paket?search=${encodeURIComponent(query)}`);
+    } else {
+      navigate('/paket');
+    }
+  };
+
   return (
     <section className="relative min-h-[600px] bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 overflow-hidden">
       <div
@@ -39,11 +53,15 @@ const HeroSection = () => {
                 bordered={false}
                 size="large"
                 className="flex-1"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onPressEnter={handleSearch}
               />
               <Button
                 type="primary"
                 size="large"
                 className="!bg-green-600 hover:!bg-green-700 !rounded-xl px-8"
+                onClick={handleSearch}
               >
                 Cari Paket
               </Button>
